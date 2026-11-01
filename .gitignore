@@ -1,0 +1,10 @@
+.env
+__pycache__/
+*.pyc
+.venv/
+venv/
+vector_db/
+logs/
+data/raw/annual_reports/
+.pytest_cache/
+.DS_Store

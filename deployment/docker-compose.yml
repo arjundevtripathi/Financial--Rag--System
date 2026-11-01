@@ -1,0 +1,32 @@
+version: "3.9"
+services:
+  api:
+    build:
+      context: ..
+      dockerfile: deployment/Dockerfile
+    container_name: financial-rag-api
+    ports:
+      - "8000:8000"
+    env_file:
+      - ../.env
+    volumes:
+      - ../data:/app/data
+      - ../vector_db:/app/vector_db
+      - ../logs:/app/logs
+    restart: always
+
+  ui:
+    image: python:3.11-slim
+    container_name: financial-rag-ui
+    working_dir: /app
+    command: >
+      bash -c "pip install streamlit requests &&
+               streamlit run frontend/streamlit_app.py
+               --server.port 8501 --server.address 0.0.0.0"
+    ports:
+      - "8501:8501"
+    volumes:
+      - ..:/app
+    depends_on:
+      - api
+    restart: always

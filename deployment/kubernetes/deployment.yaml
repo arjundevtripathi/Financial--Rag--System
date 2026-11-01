@@ -1,0 +1,22 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: financial-rag
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: financial-rag
+  template:
+    metadata:
+      labels:
+        app: financial-rag
+    spec:
+      containers:
+        - name: financial-rag
+          image: financial-rag:latest
+          ports:
+            - containerPort: 8000
+          envFrom:
+            - secretRef:
+                name: financial-rag-secrets
